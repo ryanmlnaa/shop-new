@@ -1,0 +1,83 @@
+* {
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* background-color: rgb(197, 197, 197); */
+}
+main {
+    background-color: rgba(224, 224, 224, 0.744);
+    min-height: 100vh;
+    overflow: hidden;
+}
+/* .icon-nav {
+    position: relative;
+    color: #ffffff8c;
+}
+.icon-nav:hover {
+    color: white;
+} */
+
+.circle {
+    position: absolute;
+    top: -1px;
+    right: -5px;
+    border-radius: 50%;
+    background-color: rgba(249, 32, 32, 0.86);
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 2px 9px;
+}
+
+.notif{
+    position: relative;
+    display: inline-block;
+}
+
+.fa-bag-shopping{
+    font-size: 24px;
+    color: rgba(255, 254, 254, 0.86);
+}
+
+.fa-bag-shopping:hover{
+    color: rgba(238, 233, 233, 0.74);
+}
+
+section {
+    min-height: 80vh;
+}
+
+/* style footer */
+footer {
+    position: static;
+    background-color: #025464;
+    buttom: 0;
+    color: white;
+}
+
+/* sidebar */
+.sidebar {
+    position: fixed;
+    width: 220px;
+    height: 100vh;
+}
+.sidebar a {
+    text-decoration: none;
+    color: white;
+}
+.sidebar li {
+    list-style: none;
+    padding: 10px 5px;
+}
+.sidebar li:hover {
+    background-color: rgb(217, 217, 217, 0.518);
+    border-radius: 10px;
+    margin: 0;
+}
+.sidebar h5 {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+}
