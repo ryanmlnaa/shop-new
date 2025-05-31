@@ -80,7 +80,19 @@ class TransaksiController extends Controller
 
     public function store(StoreTransaksiRequest $request)
     {
-        //
+    //      $kode = '20250531' . rand(100,999); // atau sesuai logikamu
+    // $nama = $request->input('nama_customer');
+    // $total = $request->input('total_harga');
+
+    // Transaksi::create([
+    //     'code_transaksi' => $kode,
+    //     'nama_customer' => $nama,
+    //     'total_harga' => $total,
+    //     'status' => Transaksi::STATUS_UNPAID, // gunakan konstanta biar rapi
+    //     // isian lain jika ada...
+    // ]);
+
+    // return redirect()->back()->with('success', 'Transaksi berhasil dibuat!');
     }
 
 

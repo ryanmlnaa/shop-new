@@ -24,7 +24,7 @@
                         <th>#</th>
                     </tr>
                 </thead>
-                <tbody>
+                 <tbody>
                     @foreach ($data as $y => $x)
                         <tr class="align-middle">
                             <td>{{ ++$y }}</td>

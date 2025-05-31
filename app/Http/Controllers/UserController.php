@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest; //
 use App\Models\User; //
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Hash; //
+use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert; //
 
 
 class UserController extends Controller
 {
-        public function apiLogin(Request $request)
+    public function apiLogin(Request $request)
 {
     $user = User::where('email', $request->email)->first();
 
@@ -128,7 +128,7 @@ class UserController extends Controller
             'foto'                  => $filename,
          ];
 
-         $data::where('id',$id)->update($field);
+         $data::where('id', $id)->update($field);
          Alert::toast('Data berhasil diupdate', 'success');
          return redirect()->route('userManagement');
     }
@@ -157,15 +157,12 @@ class UserController extends Controller
         $data->role         = 0;
         $data->tglLahir     = $request->date;
         $data->is_active    = 1;
-        $data->is_mamber    = 1;
+        $data->is_member    = 1;
         $data->is_admin     = 0;
 
         // dd($request);die;
 
-        if ($request->hasFile('foto') == "") {
-            $filename = "default.png";
-            $data->foto = $filename;
-        } else {
+        if ($request->hasFile('foto')) {
             $photo = $request->file('foto');
             $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
             $photo->move(public_path('storage/user'), $filename);

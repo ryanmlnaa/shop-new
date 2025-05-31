@@ -5,7 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\transaksiAdminController;
 
 
 /*
@@ -21,6 +21,9 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [TransaksiController::class, 'index'])->name('home');
 Route::post('/addToCart', [TransaksiController::class, 'addToCart'])->name('addToCart');
+Route::POST('/storePelanggan', [UserController::class, 'storePelanggan'])->name('storePelanggan');
+Route::POST('/login_pelanggan', [UserController::class, 'loginProses'])->name('loginproses.pelanggan');
+Route::GET('/logout_pelanggan', [UserController::class, 'logout'])->name('logout.pelanggan');
 
 Route::get('/shop', [Controller::class, 'shop'])->name('shop');
 Route::get('/transaksi', [Controller::class, 'transaksi'])->name('transaksi');
@@ -29,6 +32,8 @@ Route::get('/contact', [Controller::class, 'contact'])->name('contact');
 Route::post('/checkout', [Controller::class, 'checkout'])->name('checkout');
 Route::post('/checkout/proses/{id}', [Controller::class, 'prosesCheckout'])->name('checkout.product');
 Route::post('/checkout/prosesPembayaran', [Controller::class, 'prosesPembayaran'])->name('checkout.bayar');
+Route::get('/checkOut', [Controller::class, 'keranjang'])->name('keranjang');
+Route::get('/checkOut/{id}', [Controller::class, 'bayar'])->name('keranjang.bayar');
 
 Route::get('/admin', [Controller::class, 'login'])->name('login');
 Route::post('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');

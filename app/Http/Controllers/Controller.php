@@ -15,6 +15,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\transaksi;
+use Midtrans\Config;
+use Midtrans\Snap;
 //
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -24,10 +26,17 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function shop()
+    public function shop(Request $request)
     {
-         $data = Product::paginate(8);
-    $countKeranjang = TblCart::where('idUser', 'guest123')
+         if ($request->has('kategory') && $request->has('type')) {
+            $category = $request->input('kategory');
+            $type = $request->input('type');
+            $data = product::where('kategory', $category)
+                ->orWhere('type', $type)->paginate(5);
+        } else {
+             $data = Product::paginate(8);
+        }
+        $countKeranjang = TblCart::where('idUser', 'guest123')
         ->where('status', 0)
         ->count();
 
@@ -37,18 +46,20 @@ class Controller extends BaseController
         'count' => $countKeranjang,
     ]);
     }
+
+
     public function transaksi()
     {
         $db = TblCart::with('product')->where('idUser', 'guest123')->get();
-    $countKeranjang = TblCart::where('idUser', 'guest123')
+        $countKeranjang = TblCart::where('idUser', 'guest123')
         ->where('status', 0)
         ->count();
 
-    return view('pelanggan.page.transaksi', [
-        'title' => 'Transaksi',
-        'count' => $countKeranjang,
-        'data' => $db
-    ]);
+        return view('pelanggan.page.transaksi', [
+            'title' => 'Transaksi',
+            'count' => $countKeranjang,
+            'data' => $db
+        ]);
     }
     public function contact()
     {
@@ -66,40 +77,48 @@ class Controller extends BaseController
     {
        // $data  = product::where('id', $id)->first();
         $productId = $request->input('product_id');
-    $harga = $request->input('harga');
-    $qty = $request->input('qty');
-    $total = $request->input('total');
+        $harga = $request->input('harga');
+        $qty = $request->input('qty');
+        $total = $request->input('total');
 
-    $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
+        $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
+        $code = transaksi::count();
+        $codeTransaksi = date('Ymd') . $code + 1;
+        $detailBelanja = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])
+            ->sum('price');
+        $jumlahBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])
+            ->count('product_id');
+        $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])
+            ->sum('qty');
 
     // Ambil data produk dari DB (jaga-jaga jika ingin informasi lebih detail)
-    $product = Product::find($productId);
+        $product = Product::find($productId);
 
     // Validasi sederhana
-    if (!$product) {
-        return redirect()->back()->with('error', 'Produk tidak ditemukan');
-    }
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produk tidak ditemukan');
+        }
 
     // Hitung total belanja dan info lainnya
-    $jumlahbarang = 1; // Jika hanya satu jenis produk
-    $qtyOrder = $qty;
-    $detailBelanja = $total;
+        $jumlahbarang = 1; // Jika hanya satu jenis produk
+        $qtyOrder = $qty;
+        $detailBelanja = $total;
 
          $code = transaksi::count();
          $codeTransaksi = date('Ymd') . ($code + 1);
 
     // Kirim ke view checkout pembayaran
-    return view('pelanggan.page.checkOut', compact(
-        'product',
-        'harga',
-        'countKeranjang',
-        'qty',
-        'total',
-        'detailBelanja',
-        'jumlahbarang',
-        'qtyOrder',
-        'codeTransaksi'
-    ));
+        return view('pelanggan.page.checkOut', compact(
+            'product',
+            'harga',
+            'countKeranjang',
+            'qty',
+            'total',
+            'detailBelanja',
+            'jumlahbarang',
+            'qtyOrder',
+            'codeTransaksi'
+        ));
     // Hitung jumlah item di keranjang
     // $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
 
@@ -140,38 +159,38 @@ class Controller extends BaseController
     {
         $data   = $request->all();
         // $findId = TblCart::where('id',$id)->get();
-      $transaksiAktif = modelDetailTransaksi::where('status', 0)
-    ->orderBy('created_at', 'desc')
-    ->first();
+        $transaksiAktif = modelDetailTransaksi::where('status', 0)
+        ->orderBy('created_at', 'desc')
+        ->first();
 
-    if ($transaksiAktif) {
-        $codeTransaksi = $transaksiAktif->id_transaksi;
-    } else {
-        $code = transaksi::count() + 1;
-        $codeTransaksi = date('Ymd') . $code;
-    }
+        if ($transaksiAktif) {
+            $codeTransaksi = $transaksiAktif->id_transaksi;
+        } else {
+            $code = transaksi::count() + 1;
+            $codeTransaksi = date('Ymd') . $code;
+        }
 
-        // simpan detail barang
-        $detailTransaksi = new modelDetailTransaksi();
+            // simpan detail barang
+            $detailTransaksi = new modelDetailTransaksi();
 
-        $fieldDetail = [
-            'id_transaksi' => $codeTransaksi,
-            'product_id' => $data['product_id'],
-            'qty' => $data['totalQty'],
-            'price' => $data['total']
-        ];
-        $detailTransaksi::create($fieldDetail);
+            $fieldDetail = [
+                'id_transaksi' => $codeTransaksi,
+                'product_id' => $data['product_id'],
+                'qty' => $data['totalQty'],
+                'price' => $data['total']
+            ];
+            $detailTransaksi::create($fieldDetail);
 
-        // update cart
-        $fieldCart = [
-            'qty' => $data['qty'],
-            'price' => $data['total'],
-            'status'       => 1,
-        ];
-        tblCart::where('id', $id)->update($fieldCart);
+            // update cart
+            $fieldCart = [
+                'qty' => $data['qty'],
+                'price' => $data['total'],
+                'status'       => 1,
+            ];
+            tblCart::where('id', $id)->update($fieldCart);
 
-        Alert::success('Checkout Berhasil', 'Success');
-       return redirect()->route('checkout');
+            Alert::success('Checkout Berhasil', 'Success');
+            return redirect()->route('checkout');
     }
 
      public function prosesPembayaran(Request $request)
@@ -207,11 +226,75 @@ class Controller extends BaseController
         return redirect()->route('home');
     }
 
+    public function keranjang()
+    {
+        $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
+        $all_trx = transaksi::all();
+        return view('pelanggan.page.keranjang', [
+            'name' => 'Payment',
+            'title' => 'Payment Process',
+            'count' => $countKeranjang,
+            'data'  => $all_trx
+        ]);
+    }
+
+   public function bayar($id)
+{
+    $find_data = transaksi::find($id);
+    $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
+
+    // ✅ Buat order_id baru yang unik
+    $order_id = 'INV-' . uniqid();
+
+    // ✅ Simpan order_id ke kolom code_transaksi (jika perlu diingat)
+    $find_data->code_transaksi = $order_id;
+    $find_data->save();
+
+    // ✅ Konfigurasi Midtrans
+    \Midtrans\Config::$serverKey = config('midtrans.server_key');
+    \Midtrans\Config::$isProduction = false;
+    \Midtrans\Config::$isSanitized = true;
+    \Midtrans\Config::$is3ds = true;
+
+    // ✅ Siapkan parameter transaksi
+    $params = array(
+        'transaction_details' => array(
+            'order_id' => $order_id, // pakai yang unik
+            'gross_amount' => $find_data->total_harga,
+        ),
+        'customer_details' => array(
+            'first_name' => 'Mr',
+            'last_name' => $find_data->nama_customer,
+            'phone' => $find_data->no_tlp,
+        ),
+    );
+
+    // ✅ Dapatkan token Snap
+    $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+    return view('pelanggan.page.detailTransaksi', [
+        'name' => 'Detail Transaksi',
+        'title' => 'Detail Transaksi',
+        'count' => $countKeranjang,
+        'token' => $snapToken,
+        'data' => $find_data,
+    ]);
+}
+
+
     public function admin()
     {
+        $dataProduct = product::count();
+        $dataStock = product::sum('quantity');
+        $dataTransaksi = transaksi::count();
+        $dataPenghasilan = transaksi::sum('total_harga');
         return view('admin.page.dashboard', [
             'name' => "Dashboard",
             'title' => 'Admin Dashboard',
+            'totalProduct'  => $dataProduct,
+            'sumStock'      => $dataStock,
+            'dataTransaksi' => $dataTransaksi,
+            'dataPenghasilan' => $dataPenghasilan,
         ]);
     }
     public function userManagement()
