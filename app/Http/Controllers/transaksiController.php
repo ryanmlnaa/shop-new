@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
-use App\Http\Requests\StoretransaksiRequest;
+use App\Models\modelDetailTransaksi;
+use App\Http\Requestsus\StoretransaksiRequest;
 use App\Http\Requests\UpdatetransaksiRequest;
 use App\Models\Product;
 use App\Models\TblCart;
@@ -20,16 +21,25 @@ class TransaksiController extends Controller
      */
     public function index()
     {
+        $userId = 'guest123';
+
         $best = Product::where('quantity_out','>=',5)->get();
         $data = Product::paginate(15);
         $countKeranjang = TblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
+        $item = TblCart::where([
+        'idUser' => $userId,
+        'status' => 0
+    ])->with('product')->get();
+
         return view('pelanggan.page.home', [
             'title'     => 'Home',
             'data'      => $data,
             'best'      => $best,
             'count'     => $countKeranjang,
+            'item' => $item,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -78,23 +88,73 @@ class TransaksiController extends Controller
 
 
 
-    public function store(StoreTransaksiRequest $request)
-    {
-    //      $kode = '20250531' . rand(100,999); // atau sesuai logikamu
-    // $nama = $request->input('nama_customer');
-    // $total = $request->input('total_harga');
+   public function store(Request $request)
+{
 
-    // Transaksi::create([
-    //     'code_transaksi' => $kode,
-    //     'nama_customer' => $nama,
-    //     'total_harga' => $total,
-    //     'status' => Transaksi::STATUS_UNPAID, // gunakan konstanta biar rapi
-    //     // isian lain jika ada...
-    // ]);
+    $validated = $request->validate([
+        'total_qty' => 'required|integer',
+        'total_harga' => 'required|integer',
+        'nama_customer' => 'required|string',
+        'alamat' => 'required|string',
+        'no_tlp' => 'required|string',
+        'ekspedisi' => 'required|string',
+        'details' => 'required|array|min:1',
+        'details.*.product_id' => 'required|integer',
+        'details.*.qty' => 'required|integer',
+        'details.*.price' => 'required|integer',
+    ]);
 
-    // return redirect()->back()->with('success', 'Transaksi berhasil dibuat!');
+    DB::beginTransaction();
+
+    try {
+        $transaksi = Transaksi::create([
+            'code_transaksi' => now()->format('YmdHis') . rand(100, 999),
+            'total_qty' => $validated['total_qty'],
+            'total_harga' => $validated['total_harga'],
+            'nama_customer' => $validated['nama_customer'],
+            'alamat' => $validated['alamat'],
+            'no_tlp' => $validated['no_tlp'],
+            'ekspedisi' => $validated['ekspedisi'],
+        ]);
+
+        foreach ($validated['details'] as $item) {
+            modelDetailTransaksi::create([
+                'id_transaksi' => $transaksi->id,
+                'product_id' => $item['product_id'],
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaksi berhasil dibuat',
+            'data' => $transaksi->load('detailTransaksi'),
+        ]);
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function deleteCart($id)
+{
+    $cartItem = TblCart::where('id', $id)->where('idUser', 'guest123')->where('status', 0)->first();
+
+    if ($cartItem) {
+        $cartItem->delete();
+        Alert::success('Berhasil', 'Item berhasil dihapus dari keranjang.');
+    } else {
+        Alert::error('Gagal', 'Item tidak ditemukan.');
     }
 
+    return redirect()->back();
+}
 
     public function show(Transaksi $transaksi)
     {
@@ -115,7 +175,7 @@ class TransaksiController extends Controller
 
     public function destroy(Transaksi $transaksi)
     {
-        //
+
     }
 
 

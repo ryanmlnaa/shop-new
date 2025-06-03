@@ -7,11 +7,51 @@ use App\Http\Requests\UserRequest; //
 use App\Models\User; //
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use RealRashid\SweetAlert\Facades\Alert; //
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator; //
 
 
 class UserController extends Controller
 {
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required|unique:users,nik',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'foto' => 'nullable|string',
+            'alamat' => 'nullable|string',
+            'tlp' => 'nullable|string',
+            'tglLahir' => 'nullable|date',
+            'role' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::create([
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'foto' => $request->foto ?? '',
+            'alamat' => $request->alamat ?? '',
+            'tlp' => $request->tlp ?? '',
+            'tglLahir' => $request->tglLahir ?? now(),
+            'role' => $request->role,
+            'is_admin' => 0,
+            'is_member' => 1,
+            'is_active' => 1,
+            'role' => $request->role,
+        ]);
+
+        return response()->json([
+            'message' => 'User registered successfully!',
+            'user' => $user
+        ], 201);
+    }
     public function apiLogin(Request $request)
 {
     $user = User::where('email', $request->email)->first();

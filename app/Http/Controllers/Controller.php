@@ -78,6 +78,7 @@ class Controller extends BaseController
 
     public function checkout(Request $request)
     {
+        // dd('Checkout page');
        // $data  = product::where('id', $id)->first();
         $productId = $request->input('product_id');
         $harga = $request->input('harga');
@@ -93,6 +94,7 @@ class Controller extends BaseController
             ->count('product_id');
         $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])
             ->sum('qty');
+            // dd($productId);
 
     // Ambil data produk dari DB (jaga-jaga jika ingin informasi lebih detail)
         $product = Product::find($productId);
@@ -110,6 +112,7 @@ class Controller extends BaseController
          $code = transaksi::count();
          $codeTransaksi = date('Ymd') . ($code + 1);
 
+        //  dd($codeTransaksi);
     // Kirim ke view checkout pembayaran
         return view('pelanggan.page.checkOut', compact(
             'product',
@@ -385,5 +388,25 @@ public function notificationHandler(Request $request)
         request()->session()->regenerateToken();
         Alert::toast('Kamu berhasil Logout', 'success');
         return redirect('admin');
+    }
+
+    public function transaksiDestroy(Transaksi $transaksi, $id)
+    {
+        // dd('Hapus transaksi dengan ID: ' . $id);
+               $userId = 'guest123'; // atau pakai Auth::id() jika sudah login
+
+    // Ambil cart item untuk user yang sedang aktif
+    $items = TblCart::where([
+        'idUser' => $userId,
+        'status' => 0
+    ])->with('product')->get();
+    TblCart::find($id)->delete();
+    $data = Product::all();
+
+    return view('pelanggan.page.transaksi', [
+        'title' => 'Transaksi',
+        'items' => $items,
+        'data' => $data,
+    ]);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Support\Facades\View;
+use App\Models\TblCart;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -19,7 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrapFive();
-        Paginator::useBootstrapFour();
+        View::composer('*', function ($view) {
+        $cartItems = TblCart::where([
+            ['idUser', '=', 'guest123'],
+            ['status', '=', 0]
+        ])->get();
+
+        $view->with('cartItems', $cartItems);
+    });
     }
 }

@@ -19,6 +19,24 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+public function product()
+    {
+        $products = Product::all();
+        return response()->json(['data' => $products]);
+
+//    $products = Product::all()->map(function ($product) {
+//         // Ubah hanya jika image-nya tidak null
+//         if ($product->image) {
+//             $product->image = asset($product->image);
+//         }
+//         return $product;
+//     });
+
+//     return response()->json(['data' => $products]);
+
+    }
+
     public function index()
     {
         $data = Product::paginate(3);
@@ -181,3 +199,4 @@ class ProductController extends Controller
 
 
 }
+
