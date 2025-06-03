@@ -32,8 +32,11 @@ Route::get('/contact', [Controller::class, 'contact'])->name('contact');
 Route::post('/checkout', [Controller::class, 'checkout'])->name('checkout');
 Route::post('/checkout/proses/{id}', [Controller::class, 'prosesCheckout'])->name('checkout.product');
 Route::post('/checkout/prosesPembayaran', [Controller::class, 'prosesPembayaran'])->name('checkout.bayar');
-Route::get('/checkOut', [Controller::class, 'keranjang'])->name('keranjang');
+Route::get('/checkout', [Controller::class, 'keranjang'])->name('keranjang');
 Route::get('/checkOut/{id}', [Controller::class, 'bayar'])->name('keranjang.bayar');
+Route::delete('/checkout/{id}', [Controller::class, 'transaksiDestroy'])->name('transaksi.destroy');
+
+
 
 Route::get('/admin', [Controller::class, 'login'])->name('login');
 Route::post('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');
@@ -45,12 +48,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/report', [Controller::class, 'report'])->name('report');
     Route::get('/admin/addModal', [ProductController::class, 'addModal'])->name('addModal');
 
-    Route::get('/admin/user_management', [UserController::class, 'index'])->name('userManagement');
-    Route::get('/admin/user_management/addModalUser', [UserController::class, 'addModalUser'])->name('addModalUser');
-    Route::post('/admin/user_management/addData', [UserController::class, 'store'])->name('addDataUser');
+    Route::GET('/admin/user_management', [UserController::class, 'index'])->name('userManagement');
+    Route::GET('/admin/user_management/addModalUser', [UserController::class, 'addModalUser'])->name('addModalUser');
+    Route::POST('/admin/user_management/addData', [UserController::class, 'store'])->name('addDataUser');
     Route::get('/admin/user_management/editUser/{id}', [UserController::class, 'show'])->name('showDataUser');
-    Route::put('/admin/user_management/updateDataUser/{id}', [UserController::class, 'update'])->name('updateDataUser');
-    Route::delete('/admin/user_management/deleteUser/{id}', [UserController::class, 'destroy'])->name('destroyDataUser');
+    Route::PUT('/admin/user_management/updateDataUser/{id}', [UserController::class, 'update'])->name('updateDataUSer');
+    Route::DELETE('/admin/user_management/deleteUSer/{id}', [UserController::class, 'destroy'])->name('destroyDataUser');
 
     Route::post('/admin/addData', [ProductController::class, 'store'])->name('addData');
     Route::get('/admin/editModal/{id}/', [ProductController::class, 'show'])->name('editModal');
@@ -64,6 +67,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/midtrans/callback', [Controller::class, 'notificationHandler']);
 
     Route::GET('/admin/transaksi', [TransaksiAdminController::class, 'index'])->name('transaksi.admin');
+    Route::DELETE('/cart/{id}', [transaksiController::class, 'destroy'])->name('cart.delete');
+
+    Route::delete('/cart/{id}', [TransaksiController::class, 'deleteCart'])->name('cart.delete');
+
+Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
+
 
 
 

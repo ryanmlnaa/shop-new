@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use App\Models\TblCart;
+use App\Models\Product;
 
 class TransaksiAdminController extends Controller
 {

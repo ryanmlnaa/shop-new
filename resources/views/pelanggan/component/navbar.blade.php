@@ -55,7 +55,7 @@
                 </li>
                 <li class="nav-item">
                     <div class="notif">
-                        <a href="/checkOut" class="fs-5 nav-link {{ Request::path() == 'checkOut' ? 'active' : '' }}">
+                        <a href="{{ route('keranjang') }}" class="fs-5 nav-link {{ Request::path() == 'checkOut' ? 'active' : '' }}">
                             <i class="fa fa-cash-register"></i>
                         </a>
                     </div>
