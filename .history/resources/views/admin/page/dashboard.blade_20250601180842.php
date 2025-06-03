@@ -37,7 +37,7 @@
                 <span class="fs-2 p-0 m-0">{{ $dataTransaksi }}</span>
             </div>
         </div>
-        {{-- <div class="card" style="width: 250px;">
+        <div class="card" style="width: 250px;">
             <div class="card-body">
                 <div class="d-flex gap-2 align-items-center justify-start">
                     <span class="material-icons p-1 rounded"
@@ -48,14 +48,69 @@
                 </div>
                 <span class="fs-2 p-0 m-0">{{ number_format($dataPenghasilan / 1000000, 2) . ' Jt' }}</span>
             </div>
-        </div> --}}
+        </div>
     </div>
 
     <div class="card mt-2">
         <canvas id="myChart" style="height: 50vh;"></canvas>
     </div>
 
+    <div class="d-flex flex-row gap-2">
+        <div class="card rounded-full mt-2" style="width: 50%;">
+            <div class="card-header">
+                Stock terbatas
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive table-striped" style="font-size: 12px">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Inbound Date</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
+                    </tbody>
+                </table>
+                <div class="pagination d-flex flex-row justify-content-between">
+                    {{-- <div class="showData">
+                        Data ditampilkan {{ $data->count() }} dari {{ $data->total() }}
+                    </div>
+                    <div>
+                        {{ $data->links() }}
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="card rounded-full mt-2" style="width: 50%;">
+            <div class="card-header">
+                Product terlaris
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive table-striped" style="font-size: 12px">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Inbound Date</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="pagination d-flex flex-row justify-content-between">
+                    {{-- <div class="showData">
+                        Data ditampilkan {{ $data->count() }} dari {{ $data->total() }}
+                    </div>
+                    <div>
+                        {{ $data->links() }}
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const ctx = document.getElementById('myChart');

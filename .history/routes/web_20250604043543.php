@@ -36,7 +36,7 @@ Route::get('/checkout', [Controller::class, 'keranjang'])->name('keranjang');
 Route::get('/checkOut/{id}', [Controller::class, 'bayar'])->name('keranjang.bayar');
 Route::delete('/checkout/{id}', [Controller::class, 'transaksiDestroy'])->name('transaksi.destroy');
 Route::get('/transaksi', [Controller::class, 'transaksi'])->name('transaksi');
-Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
+
 
 
 
@@ -72,5 +72,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::DELETE('/cart/{id}', [transaksiController::class, 'destroy'])->name('cart.delete');
 
     Route::delete('/cart/{id}', [TransaksiController::class, 'deleteCart'])->name('cart.delete');
+
+Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
+
+
+
 
 });

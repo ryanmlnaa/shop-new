@@ -4,7 +4,7 @@
     <div class="row mt-4 align-items-center">
         <div class="col-md-6">
         <div class="content-text">
-           Aplikasi ini merupakan platform online shop berbasis web dan mobile yang dirancang untuk memberikan pengalaman berbelanja yang praktis dan modern. Dengan antarmuka yang responsif dan mudah digunakan, pengguna dapat mencari, memilih, dan membeli produk kapan saja dan di mana saja. Salah satu fitur unggulan dalam aplikasi ini adalah penerapan algoritma Naive Bayes melalui integrasi API cerdas untuk melakukan prediksi otomatis, seperti menentukan kategori gender produk berdasarkan nama, warna, dan merek. Fitur ini membantu admin dalam mempercepat proses input data produk dan meningkatkan konsistensi klasifikasi.
+           Aplikasi ini merupakan platform online shop berbasis web dan mobile yang dirancang untuk memberikan pengalaman berbelanja yang praktis dan modern. Dengan antarmuka yang responsif dan mudah digunakan, pengguna dapat mencari, memilih, dan membeli produk kapan saja dan di mana saja.
         </div>
         </div>
         <div class="col-md-6">

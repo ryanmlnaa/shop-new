@@ -4,7 +4,7 @@
     <div class="row mt-4 align-items-center">
         <div class="col-md-6">
         <div class="content-text">
-           Aplikasi ini merupakan platform online shop berbasis web dan mobile yang dirancang untuk memberikan pengalaman berbelanja yang praktis dan modern. Dengan antarmuka yang responsif dan mudah digunakan, pengguna dapat mencari, memilih, dan membeli produk kapan saja dan di mana saja. Salah satu fitur unggulan dalam aplikasi ini adalah penerapan algoritma Naive Bayes melalui integrasi API cerdas untuk melakukan prediksi otomatis, seperti menentukan kategori gender produk berdasarkan nama, warna, dan merek. Fitur ini membantu admin dalam mempercepat proses input data produk dan meningkatkan konsistensi klasifikasi.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat sequi, itaque perspiciatis vel nobis quisquam, culpa blanditiis magni libero vitae perferendis? Dolore vel neque id alias eos perspiciatis voluptate quisquam, ad cupiditate eveniet velit pariatur rerum aliquid expedita itaque, illo iusto quibusdam mollitia ullam porro! Maxime, porro iusto. Enim cupiditate ut nisi, dicta exercitationem aliquam amet, voluptatem impedit possimus neque explicabo repellendus laboriosam quisquam, maiores corporis eligendi tenetur pariatur architecto eius facere delectus sapiente numquam doloribus quia! Laboriosam distinctio tempore aut nihil iusto reiciendis voluptatibus ipsum! Quisquam iure nam eius deserunt. Officiis vero, nobis dolor excepturi perferendis iusto quae ut aperiam possimus odio, officia id in eum beatae qui natus architecto unde enim quibusdam, est aspernatur? Sint autem in expedita?
         </div>
         </div>
         <div class="col-md-6">
@@ -14,15 +14,15 @@
 
     <div class="d-flex justify-content-lg-between mt-5">
         <div class="d-flex align-items-center gap-4">
-            <i class="fa fa-users fa-2x"> </i>
+            <i class="fa fa-users fa-2x"> </i> 
             <p class="m-0 fs-5">+ 300 Pelanggan</p>
         </div>
         <div class="d-flex align-items-center gap-4">
-            <i class="fas fa-home fa-2x"> </i>
+            <i class="fas fa-home fa-2x"> </i> 
             <p class="m-0 fs-5">+ 500 Seller</p>
         </div>
         <div class="d-flex align-items-center gap-4">
-            <i class="fas fa-shirt fa-2x"> </i>
+            <i class="fas fa-shirt fa-2x"> </i> 
             <p class="m-0 fs-5">+ 300 Product</p>
         </div>
     </div>
@@ -30,9 +30,9 @@
     <h4 class="text-center mt-md-5 mb-md-2">Contact Us</h4>
     <hr class="mb-5">
     <div class="row mb-md-5">
-        {{-- <div class="col-md-5">
+        <div class="col-md-5">
             <div  class="bg-secondary" style="width:100%; height: 50vh; border-radius:10px;"></div>
-        </div> --}}
+        </div>
         <div class="col-md-7">
         <div class="card">
             <div class="card-header text-center">

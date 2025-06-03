@@ -51,9 +51,9 @@
         </div> --}}
     </div>
 
-    <div class="card mt-2">
+    {{-- <div class="card mt-2">
         <canvas id="myChart" style="height: 50vh;"></canvas>
-    </div>
+    </div> --}}
 
 
 

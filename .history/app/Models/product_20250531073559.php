@@ -30,8 +30,4 @@ class Product extends Model
     // {
     //     return $this->hasOne(tblCart::class,'product_id','id');
     // }
-    public function product()
-{
-    return $this->belongsTo(Product::class, 'product_id');
-}
 }

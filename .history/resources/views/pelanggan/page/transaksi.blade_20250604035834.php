@@ -69,8 +69,7 @@
                 <div class="card-body d-flex gap-4 flex-wrap">
                     <form action="{{ route('checkout') }}" method="POST" class="d-flex flex-wrap w-100 gap-4">
                         @csrf
-                       <img src="{{ asset('storage/product/' . ($x->product->foto ?? 'default.jpg')) }}" width="300" alt="">
-
+                        <img src="{{ asset('storage/product/' . $x->product->foto) }}" width="300" alt="">
 
                         <div class="desc">
                             <p class="fs-4 fw-bold mb-3">{{ $x->product_name }}</p>

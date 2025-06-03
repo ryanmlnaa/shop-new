@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('content')
-    <div class="d-flex flex-wrap gap-3">
+    <div class="d-flex flex-wrap gap-3 text">
         <div class="card" style="width: 250px;">
             <div class="card-body">
                 <div class="d-flex gap-2 align-items-center justify-start">
