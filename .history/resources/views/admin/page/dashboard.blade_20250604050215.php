@@ -37,7 +37,7 @@
                 <span class="fs-2 p-0 m-0">{{ $dataTransaksi }}</span>
             </div>
         </div>
-        {{-- <div class="card" style="width: 250px;">
+        <div class="card" style="width: 250px;">
             <div class="card-body">
                 <div class="d-flex gap-2 align-items-center justify-start">
                     <span class="material-icons p-1 rounded"
@@ -48,14 +48,14 @@
                 </div>
                 <span class="fs-2 p-0 m-0">{{ number_format($dataPenghasilan / 1000000, 2) . ' Jt' }}</span>
             </div>
-        </div> --}}
+        </div>
     </div>
 
     <div class="card mt-2">
         <canvas id="myChart" style="height: 50vh;"></canvas>
     </div>
 
-
+     
 
     <script>
         const ctx = document.getElementById('myChart');

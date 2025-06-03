@@ -12,7 +12,7 @@
                     <ul class="list-unstyled">
                         <li>
                             <address>
-                               Kami adalah tim pengembang yang berkomitmen untuk menghadirkan solusi belanja digital yang mudah, cepat, dan cerdas melalui platform Online Shop berbasis Web dan Mobile.
+                               Kami adalah tim pengembang yang berkomitmen untuk menghadirkan solusi belanja digital yang mudah, cepat, dan cerdas melalui platform Online Shop berbasis Web dan Mobile. Aplikasi ini dirancang untuk mempermudah pelanggan dalam menemukan dan membeli produk dengan pengalaman pengguna yang nyaman dan efisien.
                             </address>
                         </li>
                         <li>
@@ -34,4 +34,7 @@
                         <i class="fa-solid fa-linkedin fa-2x"></i>
                     </div>
                 </div>
+
+                <div class="text-center p-lg-4 mt-3">
+                Copy Right @ StudyKuy 2023 </i>
             </div>

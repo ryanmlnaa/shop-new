@@ -400,14 +400,7 @@ public function notificationHandler(Request $request)
         'idUser' => $userId,
         'status' => 0
     ])->with('product')->get();
-    $cart = TblCart::find($id);
-if ($cart) {
-    $cart->delete();
-} else {
-    // Opsional: tampilkan alert atau log error
-    Alert::error('Data tidak ditemukan', 'Gagal menghapus transaksi');
-    return redirect()->back();
-}
+    TblCart::find($id)->delete();
     $data = Product::all();
 
     return view('pelanggan.page.transaksi', [

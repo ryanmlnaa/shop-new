@@ -36,7 +36,7 @@ Route::get('/checkout', [Controller::class, 'keranjang'])->name('keranjang');
 Route::get('/checkOut/{id}', [Controller::class, 'bayar'])->name('keranjang.bayar');
 Route::delete('/checkout/{id}', [Controller::class, 'transaksiDestroy'])->name('transaksi.destroy');
 Route::get('/transaksi', [Controller::class, 'transaksi'])->name('transaksi');
-Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
+
 
 
 

@@ -3,7 +3,9 @@
                         <div class="header-title fs-4 mb-2 font-weight-bolder">
                             TOKO ONLINE KITA
                         </div>
-                        <p>Selain itu, aplikasi ini mendukung berbagai fitur e-commerce penting seperti manajemen produk, sistem keranjang belanja, checkout, serta notifikasi. Semua proses berjalan secara real-time melalui API yang saling terintegrasi antara platform web dan mobile, sehingga data selalu sinkron dan up-to-date.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                            Velit commodi officia aliquam nobis fuga enim et magnam eaque facere libero.
+                            Aut neque dolores, eligendi ab nam exercitationem optio pariatur magnam?</p>
                 </div>
                 <div class="title-middle w-25">
                     <div class="header-title fs-4 mb-2 font-weight-bolder">
@@ -12,7 +14,8 @@
                     <ul class="list-unstyled">
                         <li>
                             <address>
-                               Kami adalah tim pengembang yang berkomitmen untuk menghadirkan solusi belanja digital yang mudah, cepat, dan cerdas melalui platform Online Shop berbasis Web dan Mobile.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, eos, nulla id non dolorum obcaecati 
+                                tenetur soluta ad expedita nostrum consectetur iusto eveniet rem eius voluptas natus error architecto vel!
                             </address>
                         </li>
                         <li>
@@ -34,4 +37,7 @@
                         <i class="fa-solid fa-linkedin fa-2x"></i>
                     </div>
                 </div>
+                
+                <div class="text-center p-lg-4 mt-3">
+                Copy Right @ StudyKuy 2023 </i>
             </div>

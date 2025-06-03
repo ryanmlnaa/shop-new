@@ -1,14 +1,14 @@
 @extends('pelanggan.layout.index')
 
 @section('content')
-    <div class="row mt-4 tex">
-        {{-- Sidebar Kategori --}}
-        {{-- <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <div class="card-header">
-                    Category
-                </div>
-                <div class="card-body">
+<div class="row mt-4">
+    {{-- Sidebar Kategori --}}
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Category
+            </div>
+           <div class="card-body">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
@@ -105,78 +105,78 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> --}}
-
-        {{-- Produk --}}
-        <div class="col-md-9 d-flex flex-wrap gap-4 mb-5">
-            @if ($data->isEmpty())
-                <h1>Belum ada produk ...!</h1>
-            @else
-                @foreach ($data as $p)
-                    <div class="card" style="width:220px;">
-                        <div class="card-header m-auto" style="height:100%;width:100%;">
-                            <img src="{{ asset('storage/product/' . $p->foto) }}" alt="{{ $p->product_name }}"
-                                style="width: 100%; height:200px; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <p class="m-0 text-justify">{{ $p->product_name }}</p>
-                            <p class="m-0"><i class="fa-regular fa-star"></i> 5+</p>
-                        </div>
-                        <div class="card-footer d-flex flex-row justify-content-between align-items-center">
-                            <p class="m-0" style="font-size: 16px; font-weight: 600;"><span>IDR
-                                </span> {{ number_format($p->price) }}</p>
-
-                            {{-- FORM ADD TO CART --}}
-                            <form action="{{ route('addToCart') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $p->id }}"> {{-- --}}
-
-                                <button type="submit" class="btn btn-outline-primary" style="font-size:24px">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @endforeach
-            @endif
         </div>
+    </div>
 
-        {{-- Pagination --}}
-        @if (!$data->isEmpty())
+    {{-- Produk --}}
+    <div class="col-md-9 d-flex flex-wrap gap-4 mb-5">
+        @if ($data->isEmpty())
+            <h1>Belum ada produk ...!</h1>
+        @else
+            @foreach ($data as $p)
+                <div class="card" style="width:220px;">
+                    <div class="card-header m-auto" style="height:100%;width:100%;">
+                        <img src="{{ asset('storage/product/' . $p->foto) }}" alt="{{ $p->product_name }}"
+                            style="width: 100%; height:200px; object-fit: cover;">
+                    </div>
+                    <div class="card-body">
+                        <p class="m-0 text-justify">{{ $p->product_name }}</p>
+                        <p class="m-0"><i class="fa-regular fa-star"></i> 5+</p>
+                    </div>
+                    <div class="card-footer d-flex flex-row justify-content-between align-items-center">
+                        <p class="m-0" style="font-size: 16px; font-weight: 600;"><span>IDR
+                            </span> {{ number_format($p->price) }}</p>
 
-            <div class="pagination d-flex flex-row justify-content-between">
-                <div class="showData">
-                    Data ditampilkan {{ $data->count() }} dari {{ $data->total() }}
+                        {{-- FORM ADD TO CART --}}
+                        <form action="{{ route('addToCart') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $p->id }}"> {{-- --}}
+
+                            <button type="submit" class="btn btn-outline-primary" style="font-size:24px">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    {{ $data->links() }}
-                </div>
-            </div>
+            @endforeach
         @endif
+    </div>
 
-        <script>
-            $(document).ready(function () {
-                $('.kategory').change(function (e) {
-                    e.preventDefault();
-                    var value = $(this).val();
-                    var split = value.split(' ');
-                    var kategory = split[0];
-                    var type = split[1];
-                    // alert(type);
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('shop') }}",
-                        data: {
-                            kategory: kategory,
-                            type: type,
-                        },
-                        success: function (response) {
-                            console.log(response);
-                        }
-                    });
+    {{-- Pagination --}}
+    @if (!$data->isEmpty())
+
+    <div class="pagination d-flex flex-row justify-content-between">
+        <div class="showData">
+            Data ditampilkan {{ $data->count() }} dari {{ $data->total() }}
+        </div>
+        <div>
+            {{ $data->links() }}
+        </div>
+    </div>
+    @endif
+
+    <script>
+        $(document).ready(function() {
+            $('.kategory').change(function(e) {
+                e.preventDefault();
+                var value = $(this).val();
+                var split = value.split(' ');
+                var kategory = split[0];
+                var type = split[1];
+                // alert(type);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('shop') }}",
+                    data: {
+                        kategory: kategory,
+                        type: type,
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    }
                 });
             });
-        </script>
-    </div>
+        });
+    </script>
+</div>
 @endsection

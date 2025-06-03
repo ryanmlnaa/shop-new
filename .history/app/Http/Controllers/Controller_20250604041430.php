@@ -236,7 +236,7 @@ class Controller extends BaseController
     {
         $countKeranjang = tblCart::where(['idUser' => 'guest123', 'status' => 0])->count();
         $all_trx = transaksi::all();
-        return view('pelanggan.page.keranjang', [
+        return view('.papelanggange.keranjang', [
             'name' => 'Payment',
             'title' => 'Payment Process',
             'count' => $countKeranjang,
@@ -400,14 +400,7 @@ public function notificationHandler(Request $request)
         'idUser' => $userId,
         'status' => 0
     ])->with('product')->get();
-    $cart = TblCart::find($id);
-if ($cart) {
-    $cart->delete();
-} else {
-    // Opsional: tampilkan alert atau log error
-    Alert::error('Data tidak ditemukan', 'Gagal menghapus transaksi');
-    return redirect()->back();
-}
+    TblCart::find($id)->delete();
     $data = Product::all();
 
     return view('pelanggan.page.transaksi', [

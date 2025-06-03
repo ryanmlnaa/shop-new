@@ -34,4 +34,7 @@
                         <i class="fa-solid fa-linkedin fa-2x"></i>
                     </div>
                 </div>
+
+                <div class="text-center p-lg-4 mt-3">
+                Copy Right @ StudyKuy 2023 </i>
             </div>
