@@ -43,6 +43,9 @@ Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
 Route::get('/admin', [Controller::class, 'login'])->name('login');
 Route::post('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');
 
+
+
+
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/dashboard', [Controller::class, 'admin'])->name('admin');
     Route::get('/admin/product', [ProductController::class, 'index'])->name('product');

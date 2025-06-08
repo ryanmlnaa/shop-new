@@ -62,11 +62,20 @@
                     <div class="mb-3 row">
                         <label for="role" class="col-sm-5 col-form-label">Jabatan</label>
                         <div class="col-sm-7">
-                            <select type="text" class="form-control" id="role" name="role">
+                           @php
+                                $currentUser = Auth::user();
+                            @endphp
+
+                            <select class="form-control" id="role" name="role" {{ ($currentUser->role == 1 && $data->role == 1) ? 'disabled' : '' }}>
                                 <option value=""> Pilih Role </option>
-                                <option value="1" {{$data->role === 1 ? 'selected' : ''}}>Admin</option>
-                                <option value="2" {{$data->role === 0 ? 'selected' : ''}}>Manager</option>
+                                <option value="1" {{ $data->role === 1 ? 'selected' : '' }}>Admin</option>
+                                <option value="2" {{ $data->role === 0 ? 'selected' : '' }}>Manager</option>
                             </select>
+
+                            {{-- Kalau select-nya disabled, kirimkan nilai tersembunyi agar tetap diproses di controller --}}
+                            @if($currentUser->role == 1 && $data->role == 1)
+                                <input type="hidden" name="role" value="1">
+                            @endif
                         </div>
                     </div>
 

@@ -56,7 +56,7 @@
                         </div>
                         <div class="card-footer bg-transparent">
                             <button type="submit" class="btn btn-success w-100 mt-2">Login Now</button>
-                            <button type="submit" class="btn btn-danger w-100 mt-2">Lupa Password</button>
+                            <!-- <button type="submit" class="btn btn-danger w-100 mt-2">Lupa Password</button> -->
                         </div>
                     </form>
                 </div>

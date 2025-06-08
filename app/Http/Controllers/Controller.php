@@ -355,31 +355,36 @@ public function notificationHandler(Request $request)
             'title' => 'Admin Login',
         ]);
     }
-    public function loginProses(HttpRequest $request)
-    {
-        Session::flash('error', $request->email);
-        $dataLogin = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+   public function loginProses(Request $request)
+{
+    Session::flash('error', $request->email);
 
-        $user = new User;
-        $proses = $user::where('email', $request->email)->first();
+    $credentials = [
+        'email' => $request->email,
+        'password' => $request->password,
+    ];
 
-        if ($proses->is_admin === 0) {
-            Session::flash('error', 'Kamu bukan admin');
-            return back();
-        } else {
-            if (Auth::attempt($dataLogin)) {
-                Alert::toast('Kamu berhasil login', 'success');
-                $request->session()->regenerate();
-                return redirect()->intended('/admin/dashboard');
-            } else {
-                Alert::toast('Email dan Password salah', 'error');
-                return back();
-            }
-        }
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        Alert::toast('Email tidak ditemukan', 'error');
+        return back();
     }
+
+    if ($user->is_admin != 1) {
+        Alert::toast('Akses ditolak! Kamu bukan admin.', 'error');
+        return back();
+    }
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        Alert::toast('Kamu berhasil login sebagai admin', 'success');
+        return redirect()->intended('/admin/dashboard');
+    }
+
+    Alert::toast('Email atau password salah', 'error');
+    return back();
+}
 
     public function logout()
     {
@@ -388,32 +393,5 @@ public function notificationHandler(Request $request)
         request()->session()->regenerateToken();
         Alert::toast('Kamu berhasil Logout', 'success');
         return redirect('admin');
-    }
-
-    public function transaksiDestroy(Transaksi $transaksi, $id)
-    {
-        // dd('Hapus transaksi dengan ID: ' . $id);
-               $userId = 'guest123'; // atau pakai Auth::id() jika sudah login
-
-    // Ambil cart item untuk user yang sedang aktif
-    $items = TblCart::where([
-        'idUser' => $userId,
-        'status' => 0
-    ])->with('product')->get();
-    $cart = TblCart::find($id);
-if ($cart) {
-    $cart->delete();
-} else {
-    // Opsional: tampilkan alert atau log error
-    Alert::error('Data tidak ditemukan', 'Gagal menghapus transaksi');
-    return redirect()->back();
-}
-    $data = Product::all();
-
-    return view('pelanggan.page.transaksi', [
-        'title' => 'Transaksi',
-        'items' => $items,
-        'data' => $data,
-    ]);
     }
 }

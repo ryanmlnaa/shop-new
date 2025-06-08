@@ -1,14 +1,14 @@
 @extends('pelanggan.layout.index')
 
 @section('content')
-    <div class="row mt-4 tex">
-        {{-- Sidebar Kategori --}}
-        {{-- <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <div class="card-header">
-                    Category
-                </div>
-                <div class="card-body">
+<div class="row mt-4">
+    {{-- Sidebar Kategori --}}
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Category
+            </div>
+           <div class="card-body">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
@@ -105,8 +105,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> --}}
+        </div>
+    </div>
 
         {{-- Produk --}}
         <div class="col-md-9 d-flex flex-wrap gap-4 mb-5">

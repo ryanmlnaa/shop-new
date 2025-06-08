@@ -36,7 +36,7 @@
                             <td>{{ $x->name }}</td>
                             <td>
                                 <span
-                                    class='badge text-bg-{{ $x->role === 1 ? 'info' : 'success' }}'>{{ $x->role === 1 ? 'Admin' : 'Manager' }}</span>
+                                    class='badge text-bg-{{ $x->role === 1 ? 'info' : 'success' }}'>{{ $x->role === 1 ? 'Admin' : 'User' }}</span>
                             </td>
                             <td>
                                 <span
@@ -46,9 +46,16 @@
                                 <button class="btn btn-info editModal" data-id="{{ $x->id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
+                                @if ($x->role !== 1)
                                 <button class="btn btn-danger deleteData" data-id="{{ $x->id }}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
+                            @else
+                                <button class="btn btn-secondary" disabled title="Akun admin tidak bisa dihapus">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            @endif
+
                             </td>
                         </tr>
                     @endforeach

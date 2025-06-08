@@ -69,11 +69,9 @@
                 <div class="card-body d-flex gap-4 flex-wrap">
                     <form action="{{ route('checkout') }}" method="POST" class="d-flex flex-wrap w-100 gap-4">
                         @csrf
-                       <img src="{{ asset('storage/product/' . ($x->product->foto ?? 'default.jpg')) }}" width="300" alt="">
-
-
-                        <div class="desc">
-                            <p class="fs-4 fw-bold mb-3">{{ $x->product_name }}</p>
+                        <div class="desc w-100"></div>
+                        <div class="desc w-100">
+                            <p style="font-size:24px; font-weight:700;">{{ $x->product->product_name }}</p>
 
                             <input type="hidden" name="product_id" value="{{ $x->product_id }}">
                             <input type="number" class="form-control border-0 fs-3 mb-2" name="harga" readonly

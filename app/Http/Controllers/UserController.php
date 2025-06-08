@@ -143,46 +143,61 @@ class UserController extends Controller
             ]
         )->render();
     }
-    public function update(UserRequest $request, $id)
-    {
-         $data = User::findOrFail($id);
+public function update(UserRequest $request, $id)
+{
+    $data = User::findOrFail($id);
 
-         if ($request->file('foto')) {
-            $photo = $request->file('foto');
-            $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('storage/user'), $filename);
-            $data->foto = $filename;
-         } else {
-            $filename = $request->foto;
-         }
-
-         $field = [
-            'nik'                   => $request->nik,
-            'name'                  => $request->nama,
-            'email'                 => $request->email,
-            'password'              => bcrypt($request->password),
-            'alamat'                => $request->alamat,
-            'tlp'                   => $request->tlp,
-            'tglLahir'              => $request->tglLahir,
-            'role'                  => $request->role,
-            'foto'                  => $filename,
-         ];
-
-         $data::where('id', $id)->update($field);
-         Alert::toast('Data berhasil diupdate', 'success');
-         return redirect()->route('userManagement');
+    // Cegah sesama admin menurunkan jabatan admin lain
+    if (Auth::user()->role == 1 && $data->role == 1 && $request->role != 1) {
+        return back()->with('error', 'Sesama admin tidak boleh menurunkan admin lain menjadi manajer!');
     }
+
+    if ($request->file('foto')) {
+        $photo = $request->file('foto');
+        $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
+        $photo->move(public_path('storage/user'), $filename);
+        $data->foto = $filename;
+    } else {
+        $filename = $request->foto;
+    }
+
+    $field = [
+        'nik'       => $request->nik,
+        'name'      => $request->nama,
+        'email'     => $request->email,
+        'password'  => bcrypt($request->password),
+        'alamat'    => $request->alamat,
+        'tlp'       => $request->tlp,
+        'tglLahir'  => $request->tglLahir,
+        'role'      => $request->role,
+        'foto'      => $filename,
+    ];
+
+    $data::where('id', $id)->update($field);
+    Alert::toast('Data berhasil diupdate', 'success');
+    return redirect()->route('userManagement');
+}
+
     public function destroy($id)
-    {
-        $product = User::findOrFail($id);
-        $product->delete();
+{
+    $user = User::findOrFail($id);
 
+    // Cegah penghapusan jika role adalah admin
+    if ($user->role === 'admin') {
         $json = [
-            'success' => "Data berhasil dihapus"
+            'error' => "Akun dengan role admin tidak boleh dihapus."
         ];
-
-        echo json_encode($json);
+        return response()->json($json, 403); // HTTP 403 Forbidden
     }
+
+    $user->delete();
+
+    $json = [
+        'success' => "Data berhasil dihapus"
+    ];
+
+    return response()->json($json);
+}
 
     public function storePelanggan(UserRequest $request)
     {
@@ -213,29 +228,39 @@ class UserController extends Controller
         return redirect()->route('home');
     }
 
-    public function loginProses(Request $request)
-    {
-        $dataLogin = [
-            'email' => $request->email,
-            'password'  => $request->password,
-        ];
+   public function loginProses(Request $request)
+{
+    $credentials = [
+        'email' => $request->email,
+        'password' => $request->password,
+    ];
 
-        $user = new User;
-        $proses = $user::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if ($proses->is_active === 0) {
-            Alert::toast('Kamu belum register', 'error');
-            return back();
-        }
-        if (Auth::attempt($dataLogin)) {
-            Alert::toast('Kamu berhasil login', 'success');
-            $request->session()->regenerate();
-            return redirect()->intended('/');
-        } else {
-            Alert::toast('Email dan Password salah', 'error');
-            return back();
-        }
+    if (!$user) {
+        Alert::toast('Email tidak ditemukan', 'error');
+        return back();
     }
+
+    if ($user->is_active == 0) {
+        Alert::toast('Akun kamu belum aktif. Silakan register.', 'error');
+        return back();
+    }
+
+    if ($user->is_admin == 1) {
+        Alert::toast('Akses ditolak! Admin tidak bisa login di halaman pelanggan.', 'error');
+        return back();
+    }
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        Alert::toast('Login berhasil sebagai pelanggan', 'success');
+        return redirect()->intended('/');
+    }
+
+    Alert::toast('Email atau password salah', 'error');
+    return back();
+}
 
     public function logout()
     {
